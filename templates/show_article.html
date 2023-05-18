@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Motorola Vulnerability Scraper</title>
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='./Motorola Vulnerability Scrapper_files/scraper.css') }}">
+    <link rel="search" type="application/opensearchdescription+xml" href="#">
+
+    <!-- We don't want to cache anything that's a child of this page -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Expires" content="-1">
+    <meta name="robots" content="noindex">
+
+</head>
+<body cz-shortcut-listen="true">
+<div id="body-wrapper">
+
+
+    <script type="text/javascript">
+    glossary_staticPath = '/_static/beta095.370037348603960655';
+
+    </script>
+    <div id="link-bar">
+        <span class="glossary-version-link-bar">Vulnerability-Scraper</span>|<span
+            class="login">wansilva@motorola.com</span>|<a target="_blank" href="#">Help</a>|<a href="#">Sign out</a>|<a
+            href="#"><img src="{{ url_for('static', filename='motologo.png') }}" height="24" title="Report Bugs"
+                          alt="Report Bugs" border="0"></a>
+    </div>
+
+
+    <div id="body">
+
+
+        <table border="0" cellspacing="0" cellpadding="2" align="left" valign="top" width="80%">
+            <tbody>
+            <tr>
+                <td valign="top" width="220px">
+                    <a href="bypassfrpfiles">
+                        <img style="border-radius: 10%;" src="{{ url_for('static', filename='site1.png') }}"
+                             alt="Internal Glossary Logo" border="0"></a>
+                </td>
+                <td valign="center" align="left">
+
+                </td>
+                <td>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="3">
+                    <h4>Title:</h4>
+                    <p style="font-size:25px;color:green;"><br> {{ article[2] }}</p>
+                    <h4>Link:</h4>
+                    <p><br> <a href={{ article[5] }}>{{ article[5] }}</a></p>
+                    <h4>Vendor: </h4>
+                    <p><br> {{ article[0] }}</p>
+                    <h4>Model: </h4>
+                    <p><br>{{ article[1] }}</p>
+                    <h4>Android Version:</h4>
+                    <p><br>{{ article[3] }}</p>
+                    <h4>Publication date: </h4>
+                    <p><br> {{ article[4] }}</p>
+                    <h4>Content:</h4>
+
+                    <p><br><br>{{ article[7] | safe}}</p>
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
+    </div> <!-- id=body -->
+
+
+    <div id="footerSpace"></div>
+    <div id="footer">
+        <div id="copyright">Contents Motorola Confidental. Application © 2023 Google Inc..
+        </div>
+        <div>
+            Contact <a href="wansilva@motorola.com">Scraper Admininstrator</a>.
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43432023-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+
+
+    </script>
+
+
+</div>
+
+</body>
+</html>

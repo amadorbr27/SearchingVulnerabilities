@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Motorola Vulnerability Scraper</title>
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='./Motorola Vulnerability Scrapper_files/scraper.css') }}">
+    <link rel="search" type="application/opensearchdescription+xml" href="#">
+
+
+</head>
+<body cz-shortcut-listen="true">
+<div id="body-wrapper">
+
+
+    <div id="link-bar">
+        <span class="glossary-version-link-bar">Vulnerability-Scraper</span>|<span
+            class="login">wansilva@motorola.com</span>|<a target="_blank" href="#">Help</a>|<a href="#">Sign out</a>|<a
+            href="#"><img src="{{ url_for('static', filename='motologo.png') }}" height="24" title="Report Bugs"
+                          alt="Report Bugs" border="0"></a>
+    </div>
+
+
+    <div id="body">
+
+
+        <div class="glossary-home-page-logo" id="logo" align="center" style="
+    padding-top: 20px;
+">
+            <a href="#"><img style="border-radius: 10%; height: 180px;"
+                             src="{{ url_for('static', filename='logo.png') }}" alt="Glossary Logo"></a>
+            <br>
+        </div>
+
+
+        <div class="two-line-horizontal-spacer"></div>
+        <div>
+
+        </div>
+
+        <div align="center">
+
+            <h1 style="font-family: 'Montserrat';font-size: 22px;"> Please, choose an option:</h1>
+
+            <h2 style="font-family: 'Montserrat';font-size: 18px;padding-bottom: 8px;padding-top: 20px;"> Update list of
+                Motorola devices to be monitored </h2>
+            <br>
+
+            <input onclick="openForm()" type="submit" value="Models Scraping"
+                   style="width: 316px;height: 35px;border-radius: 10%; background-color: #110040; color: #F8E006; font-family: 'Montserrat';font-size: 22px;">
+
+
+            <h2 style="font-family: 'Montserrat';font-size: 18px;padding-bottom: 8px;padding-top: 20px;"> Select root
+                website to be scraped</h2>
+            <br>
+
+            <form action="bypassfrpfiles">
+                <input type="submit" value="bypassfrpfiles.com"
+                       style="width: 316px;height: 35px;border-radius: 10%;margin-bottom: 10px; background-color: #110040; color: #F8E006; font-family: 'Montserrat';font-size: 22px;">
+            </form>
+
+            <form action="#">
+                <input type="submit" value="xda-developers.com"
+                       style="width: 316px;height: 35px;border-radius: 10%;margin-bottom: 10px; background-color: #110040; color: #F8E006; font-family: 'Montserrat';font-size: 22px;">
+            </form>
+
+            <form action="#">
+                <input type="submit" value="lgk20.com"
+                       style="width: 316px;height: 35px;border-radius: 10%;margin-bottom: 10px; background-color: #110040; color: #F8E006; font-family: 'Montserrat';font-size: 22px;">
+            </form>
+
+        </div>
+
+
+    </div> <!-- id=body -->
+
+
+    <div id="footerSpace"></div>
+    <div id="footer">
+        <div id="copyright">Contents Motorola Confidental. Application © 2023 Google Inc..
+        </div>
+        <div>
+            Contact <a href="wansilva@motorola.com">Scraper Admininstrator</a>.
+        </div>
+    </div>
+
+
+    <div style="  display: none;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  border: 3px solid #f1f1f1;
+  z-index: 9; font-family: 'Montserrat';font-size: 22px; width: 300px;
+  overflow:auto;"
+         id="myForm" ;>
+
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+
+        <h2>New models found:</h2>
+        <br> <br>
+
+
+        <script type="text/javascript">
+
+  function openForm() {
+  document.getElementById("myForm").style.display = "block";
+  fetch('/get_new_models')
+    .then(response => response.json())
+    .then(new_models_formated => {
+      document.getElementById("myForm").innerHTML += new_models_formated;});
+}
+
+  function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43432023-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+
+
+        </script>
+
+
+    </div>
+
+</body>
+</html>
