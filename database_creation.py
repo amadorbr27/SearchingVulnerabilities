@@ -5,9 +5,10 @@ import json
 class dbManager():
     db = mysql.connect(
 	    host="localhost",
-	    user="", # Put your username here
-	    passwd="", # Put your password here
-	    database=""  # Put here the database name	
+	    user="motorola", # Put your username here
+	    passwd="Motorola", # Put your password here
+        auth_plugin='mysql_native_password',
+	    database="Monograph"  # Put here the database name
     )
     cursor = db.cursor()
 

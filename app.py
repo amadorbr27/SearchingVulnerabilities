@@ -10,9 +10,10 @@ ITEMS_PER_PAGE = 20
 
 db = mysql.connect(
     host="localhost",
-    user="", # Put your username here
-    passwd="", # Put your password here
-    database=""  # Put here the database name
+    user="motorola", # Put your username here
+    passwd="Motorola", # Put your password here
+    auth_plugin='mysql_native_password',
+    database="monograph"  # Put here the database name
 )
 cursor = db.cursor()
 

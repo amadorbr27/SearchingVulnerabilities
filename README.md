@@ -1,19 +1,13 @@
+
+
 # **Instalação de Dependências para a Aplicação Python**
 
+<p>Este documento descreve os passos de instalação das dependências necessárias para execução da aplicação que exige as seguintes bibliotecas:</p>
 
-Este documento descreve os passos de instalação das dependências necessárias para execução da aplicação que exige as seguintes bibliotecas:
-
-- MySQL Server
-- BeautifulSoup
-- datetime
-- flask
-- html2text
-- json
-- markdown
 - mysql.connector
-- re
-- requests
-- subprocess
+- json
+- flask
+- python-dotenv 
 
 ## **1. Instalação do MySQL Server**
 
@@ -34,7 +28,8 @@ Este documento descreve os passos de instalação das dependências necessárias
 
 5. Se o MySQL Server estiver em execução, você deve ver uma mensagem indicando que o serviço está ativo.
 
-###Instalação do MySQL Server no Windows:
+
+##Instalação do MySQL Server no Windows:
 
 1. Baixe o instalador do MySQL Server no site oficial:[https://dev.mysql.com/downloads/mysql/](https://dev.mysql.com/downloads/mysql/)
 2. Execute o arquivo de instalação e siga as instruções na tela. Durante a instalação, você será solicitado a configurar uma senha para o usuário root do MySQL. Digite e confirme uma senha forte e segura.
@@ -43,8 +38,6 @@ Este documento descreve os passos de instalação das dependências necessárias
 
 1. Baixe o instalador do MySQL Server no site oficial:[https://dev.mysql.com/downloads/mysql/](https://dev.mysql.com/downloads/mysql/)
 2. Execute o arquivo de instalação e siga as instruções na tela. Durante a instalação, você será solicitado a configurar uma senha para o usuário root do MySQL. Digite e confirme uma senha forte e segura.
-
-
 
 ## **2. Instalação do Python**
 
@@ -66,6 +59,20 @@ Se o pip já estiver instalado, você deve ver uma mensagem informando a versão
 
 Para instalar as bibliotecas Python necessárias para a aplicação, execute o seguinte comando no terminal:
 
+
 `pip install mysql-connector-python json requests beautifulsoup4 html2text markdown flask`
 
-Este comando irá instalar as bibliotecas mysql-connector-python, json, requests, beautifulsoup4, html2text, markdown e flask.
+
+
+## ** 5. EXECUTANDO O CÓDIGO LOCALMENTE 
+
+`python database_creation.py`
+
+`python app.py `
+
+
+
+
+
+
+
