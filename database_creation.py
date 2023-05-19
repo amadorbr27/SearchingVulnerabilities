@@ -25,6 +25,7 @@ class dbManager:
         self.cursor = self.db.cursor()
 
         statements = [
+             
             "DROP TABLE IF EXISTS `article_links`;",
             "DROP TABLE IF EXISTS `articles`;",
             "DROP TABLE IF EXISTS `links`;",
@@ -71,6 +72,21 @@ class dbManager:
             "  KEY `id_model_idx` (`id_model`),"
             "  CONSTRAINT `id_model` FOREIGN KEY (`id_model`) REFERENCES `models` (`id`))"
             ,
+
+            (
+                "CREATE TABLE `articles_links` ("
+                "  `id_article` INT NOT NULL,"
+                "  `id_link` INT NOT NULL,"
+                "  PRIMARY KEY (`id_article`, `id_link`),"
+                "  CONSTRAINT `id_article`"
+                "    FOREIGN KEY (`id_article`)"
+                "    REFERENCES `articles` (`id`)"
+                "    ON DELETE NO ACTION"
+                "    ON UPDATE NO ACTION,"
+                "  CONSTRAINT `id_link`"
+                "    FOREIGN KEY (`id_link`)"
+                "    REFERENCES `links` (`id`))"
+            ),
         ]
         
         #create or reacreate database structure if already exist, earising all data
@@ -135,25 +151,17 @@ class dbManager:
 
     
     def addArticlesLinks(self, article):
-        # Get the ID of the article
         id_article = self.selectArticleId(article)
-        
-        # Iterate over the links of the article
         for link in article.links:
-            # Check if the link already exists in the database
             self.cursor.execute(f"SELECT id FROM links WHERE c_link = '{link}'")
             result = self.cursor.fetchall()
-            
             if len(result) != 0:
-                # Check if a the article and the link already exists
+                # * due one query or use another way
                 self.cursor.execute(f"SELECT id_article, id_link FROM articles_links WHERE id_article = '{id_article}'")
                 result2 = self.cursor.fetchall()
                 self.cursor.execute(f"SELECT id_article, id_link FROM articles_links WHERE id_link = '{result[0][0]}'")
                 result3 = self.cursor.fetchall()
-                
-                # Check if there is a bidirectional between the article and the link
                 if (result2 in result3) or (result3 in result2):
-                    # Insert the article and the link
                     self.cursor.execute(
                         f"INSERT INTO articles_links (id_article, id_link) VALUES ('{id_article}', '{result[0][0]}')")
                     self.db.commit()
@@ -177,6 +185,21 @@ class dbManager:
 
         article.id_vendor = id_vendor
         return article
+    
+
+    def addVendors(self, article):
+        """
+        :param article: article to add vendors
+        :return:
+        """
+        vendor_id = self.getArticleVendorId(article)
+        self.cursor.execute(f"SELECT id_article FROM articles WHERE c_link = '{article.c_link}'")
+        result = self.cursor.fetchall()
+        id_article = result[0][0]
+        self.cursor.execute(
+            f"INSERT INTO articles_vendors (id_article, id_vendor) VALUES ('{id_article}', '{vendor_id}')"
+        )
+        self.db.commit()
     
     def getArticlesModelId(self, article):
         """
