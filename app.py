@@ -11,7 +11,7 @@ ITEMS_PER_PAGE = 20
 db = mysql.connect(
     host="localhost",
     user="motorola", # Put your username here
-    passwd="Motorola", # Put your password here
+    passwd="motorola23", # Put your password here
     auth_plugin='mysql_native_password',
     database="monograph"  # Put here the database name
 )

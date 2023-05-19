@@ -1,12 +1,11 @@
 import mysql.connector as mysql
 import json
 
-
 class dbManager():
     db = mysql.connect(
 	    host="localhost",
 	    user="motorola", # Put your username here
-	    passwd="Motorola", # Put your password here
+	    passwd="motorola23", # Put your password here
         auth_plugin='mysql_native_password',
 	    database="Monograph"  # Put here the database name
     )
