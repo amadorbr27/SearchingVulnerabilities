@@ -8,6 +8,9 @@
 - json
 - flask
 - python-dotenv 
+- beatifulsoup4
+- Markdown
+
 
 ## **1. Instalação do MySQL Server**
 

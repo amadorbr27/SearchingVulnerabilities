@@ -1,12 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
-import re
 import json
 import html2text
-import markdown
 import mysql.connector as mysql
-import datetime
 from database_creation import dbManager
+from flask import Flask, jsonify
 
 ANDROID_VERSIONS = ["1.0", "1.1", "1.5", "1.6", "2.0", "2.1", "2.2", "2.3", "3.0", "3.2", "4.0", "4.1", "4.3", "4.4", "5.0",
                     "5.1", "6.0", "7", "7.0", "7.1", "8", "8.0", "8.1", "9", "10", "11", "12", "13"]
@@ -14,6 +12,8 @@ ANDROID_VERSIONS = ["1.0", "1.1", "1.5", "1.6", "2.0", "2.1", "2.2", "2.3", "3.0
 NUMBER_PAGES_TO_SCRAP = 25
 
 DROP_WORDS = ["apple"]
+
+app = Flask(__name__)
 
 class bypassfrpfilesScraper():
     # *Name could be the same as in database
@@ -38,7 +38,7 @@ class bypassfrpfilesScraper():
         response = requests.get(url).text
 
         soup = BeautifulSoup(response, 'html.parser')
-        if filter!=None:
+        if filter != None:
             response = str(soup.find(class_=filter))
             soup = BeautifulSoup(response, 'html.parser')
 
@@ -75,20 +75,16 @@ class bypassfrpfilesScraper():
 
         # Filtering vendor and model
         with open("Phones_Models_List.json", "r") as text:
-            dic = json.loads(text.read())
+            dic = json.load(text)
         for vendorr in dic:
             for modell in dic[vendorr]:
                 if (vendorr.lower() in self.title.lower()):
                     self.vendor = vendorr
                     if (modell.lower() in self.title.lower()):
-                        if self.model is not list:
-                            self.model = list(self.model)
-                        self.model.append(modell)
-        # *May exist models with the same initial Sting. Regex could be used
-        if len(self.model) == 0:
-            self.model = "Unknown"
-        else:
-            self.model = max(self.model)
+                        if isinstance(self.model, list):
+                            self.model = max(self.model, key=len)
+                        else:
+                            self.model = modell
 
         # Filtering android version
         for version in ANDROID_VERSIONS:
@@ -99,8 +95,8 @@ class bypassfrpfilesScraper():
     def scrapArticle(self):
         soup = self.getSoup(self.url, "entry-content")
 
-        # Filtering titles of contets
-        #* Format need revision
+        # Filtering titles of contents
+        # * Format need revision
         self.contents = soup.find_all(class_="lwptoc_item")
         for i in range(0, len(self.contents)):
             self.contents[i] = self.contents[i].text.split()
@@ -130,35 +126,44 @@ class bypassfrpfilesScraper():
                 urls.append(href_tag['href'])
         return urls
 
-if __name__ == '__main__':
+@app.route('/')
+def scrape_and_return_data():
     manager = dbManager()
     article = bypassfrpfilesScraper("")
     count = 1
+    scraped_data = []
 
     for url in article.getArticleLinks(NUMBER_PAGES_TO_SCRAP):
-        count = count + 1
+        count += 1
         print("Scraping article " + str(count) + "...")
-        # print("url: " + url)
-        # print("Está no banco de dados?")
-        # print(manager.isInDatabase(url))
-
         if not manager.isInDatabase(url):
-
-            #Declaring scraper instance and making the web scraping
+            # Declaring scraper instance and making the web scraping
             article = bypassfrpfilesScraper(url)
             article.scrapBasicAttributes()
 
-            #Dropping articles with drop words
+            # Dropping articles with drop words
             if not any(word.lower() in article.title.lower() for word in DROP_WORDS):
                 article.scrapArticle()
 
-                #Search and set vendor and model
+                # Search and set vendor and model
                 article = manager.getArticleVendorId(article)
                 article = manager.getArticlesModelId(article)
 
                 manager.addArticle(article)
 
-                #Adding relation data into articles_links table
+                # Adding relation data into articles_links table
                 manager.addArticlesLinks(article)
 
+                scraped_data.append({
+                    'title': article.title,
+                    'vendor': article.vendor,
+                    'model': article.model,
+                    'android_version': article.android_version,
+                    'publication_date': article.publication_date,
+                    'content': article.content
+                })
 
+    return jsonify(scraped_data)
+
+if __name__ == '__main__':
+    app.run()

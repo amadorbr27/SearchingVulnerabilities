@@ -1,22 +1,44 @@
 from flask import Flask, render_template, jsonify, request
 from smartphones_models_scraping import modelScraping
-import mysql.connector as mysql
+import mysql.connector
 import json
 import math
 import markdown
 import subprocess
+from database_creation import dbManager
+from dotenv import load_dotenv
+from dotenv import dotenv_values
 
 ITEMS_PER_PAGE = 20
 
-db = mysql.connect(
-    host="localhost",
-    user="motorola", # Put your username here
-    passwd="motorola23", # Put your password here
-    database="motorola"  # Put here the database name
-)
+app = Flask(__name__)
+
+class dbManager:
+    def __init__(self):
+        # Load environment variables from a .env file
+        load_dotenv()
+        
+        # Load configuration values from the .env file
+        config = dotenv_values(".env")
+
+        # Establish a database connection
+        self.db = mysql.connector.connect(
+            host=config["DB_HOST"],
+            port=config["DB_PORT"],
+            user=config["DB_USER"],
+            password=config["DB_PASSWORD"],
+            database=config['DB_NAME']
+        )
+
+        self.cursor = self.db.cursor()
+
+    def get_database_connection(self):
+        return self.db
+
+db_manager = dbManager()
+db = db_manager.get_database_connection()
 cursor = db.cursor()
 
-app = Flask(__name__)
 
 
 @app.route("/")
