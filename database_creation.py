@@ -8,21 +8,16 @@ app = Flask(__name__)
 
 class dbManager:
     def __init__(self):
-        # Load environment variables from a .env file
-        load_dotenv()
-        
-        # Load configuration values from the .env file
-        config = dotenv_values(".env")
 
         # Establish a database connection
         self.db = mysql.connector.connect(
-            host=config["DB_HOST"],
-            port=config["DB_PORT"],
-            user=config["DB_USER"],
-            password=config["DB_PASSWORD"],
-            database=config['DB_NAME']
+            host="localhost",
+            port="3306",
+            user="motorola",
+            password="motorola23",
+            auth_plugin='mysql_native_password',
+            database="monograph"
         )
-
         self.cursor = self.db.cursor()
         
         self.statements = [

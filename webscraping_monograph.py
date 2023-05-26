@@ -15,43 +15,35 @@ DROP_WORDS = ["apple"]
 
 app = Flask(__name__)
 
-class bypassfrpfilesScraper():
-    # *Name could be the same as in database
-    c_link = ""
-    title = ""
-    vendor = "Unknown"
-    id_vendor = None
-    model = list()
-    id_model = None
-    android_version = "Unknown"
-    publication_date = ""
-    contents = []
-    links = []
-    content = ""
-
+class BypassfrpfilesScraper:
     def __init__(self, url):
         self.url = url
         self.c_link = url
-
+        self.title = ""
+        self.vendor = "Unknown"
+        self.id_vendor = None
+        self.model = []
+        self.id_model = None
+        self.android_version = "Unknown"
+        self.publication_date = ""
+        self.contents = []
+        self.links = []
+        self.content = ""
 
     def getSoup(self, url, filter=None):
         response = requests.get(url).text
-
         soup = BeautifulSoup(response, 'html.parser')
-        if filter != None:
+        if filter is not None:
             response = str(soup.find(class_=filter))
             soup = BeautifulSoup(response, 'html.parser')
-
         return soup
 
     def excludeSummary(self, soup):
-        # Deleting contents for main text
         for div in soup.find_all("div", {'class': 'lwptoc_i'}):
             div.decompose()
         return soup
 
     def removeImages(self, soup):
-        # Removing image links
         while True:
             try:
                 soup.img.decompose()
@@ -60,7 +52,6 @@ class bypassfrpfilesScraper():
         return soup
 
     def summaryListFilter(self, contents):
-        # Treating summary of contents
         contentlist = str(list(contents.keys())).replace("'", " ")
         contentlist = "".join(contentlist)
         return contentlist
@@ -69,50 +60,37 @@ class bypassfrpfilesScraper():
         soup = self.getSoup(self.url, "entry-header")
         self.title = soup.find('h1').text
         self.publication_date = soup.find("time")["datetime"]
-
-        # Treating datetime
         self.publication_date = self.publication_date.split("+")[0].replace("T", " ")
 
-        # Filtering vendor and model
         with open("Phones_Models_List.json", "r") as text:
             dic = json.load(text)
-        for vendorr in dic:
-            for modell in dic[vendorr]:
-                if (vendorr.lower() in self.title.lower()):
-                    self.vendor = vendorr
-                    if (modell.lower() in self.title.lower()):
+        for vendor in dic:
+            for model in dic[vendor]:
+                if vendor.lower() in self.title.lower():
+                    self.vendor = vendor
+                    if model.lower() in self.title.lower():
                         if isinstance(self.model, list):
                             self.model = max(self.model, key=len)
                         else:
-                            self.model = modell
+                            self.model = model
 
-        # Filtering android version
         for version in ANDROID_VERSIONS:
-            if ("Android " + version) in self.title:
+            if f"Android {version}" in self.title:
                 self.android_version = version
-
 
     def scrapArticle(self):
         soup = self.getSoup(self.url, "entry-content")
-
-        # Filtering titles of contents
-        # * Format need revision
         self.contents = soup.find_all(class_="lwptoc_item")
         for i in range(0, len(self.contents)):
-            self.contents[i] = self.contents[i].text.split()
-            self.contents[i] = " ".join(self.contents[i])
+            self.contents[i] = " ".join(self.contents[i].text.split())
         self.contents = dict.fromkeys(self.contents)
 
         soup = self.excludeSummary(soup)
-
-        # Filtering related links
         href_tags = soup.find_all(href=True)
         for tag in href_tags:
             self.links.append(tag['href'])
 
         soup = self.removeImages(soup)
-
-        # Filtering text content
         self.content = html2text.html2text(str(soup))
 
     def getArticleLinks(self, npages):
@@ -129,38 +107,31 @@ class bypassfrpfilesScraper():
 @app.route('/')
 def scrape_and_return_data():
     manager = dbManager()
-    article = bypassfrpfilesScraper("")
+    article_scraper = BypassfrpfilesScraper("")
     count = 1
     scraped_data = []
 
-    for url in article.getArticleLinks(NUMBER_PAGES_TO_SCRAP):
+    for url in article_scraper.getArticleLinks(NUMBER_PAGES_TO_SCRAP):
         count += 1
         print("Scraping article " + str(count) + "...")
         if not manager.isInDatabase(url):
-            # Declaring scraper instance and making the web scraping
-            article = bypassfrpfilesScraper(url)
-            article.scrapBasicAttributes()
+            article_scraper = BypassfrpfilesScraper(url)
+            article_scraper.scrapBasicAttributes()
 
-            # Dropping articles with drop words
-            if not any(word.lower() in article.title.lower() for word in DROP_WORDS):
-                article.scrapArticle()
-
-                # Search and set vendor and model
-                article = manager.getArticleVendorId(article)
-                article = manager.getArticlesModelId(article)
-
-                manager.addArticle(article)
-
-                # Adding relation data into articles_links table
-                manager.addArticlesLinks(article)
+            if not any(word.lower() in article_scraper.title.lower() for word in DROP_WORDS):
+                article_scraper.scrapArticle()
+                article_scraper = manager.getArticleVendorId(article_scraper)
+                article_scraper = manager.getArticlesModelId(article_scraper)
+                manager.addArticle(article_scraper)
+                manager.addArticlesLinks(article_scraper)
 
                 scraped_data.append({
-                    'title': article.title,
-                    'vendor': article.vendor,
-                    'model': article.model,
-                    'android_version': article.android_version,
-                    'publication_date': article.publication_date,
-                    'content': article.content
+                    'title': article_scraper.title,
+                    'vendor': article_scraper.vendor,
+                    'model': article_scraper.model,
+                    'android_version': article_scraper.android_version,
+                    'publication_date': article_scraper.publication_date,
+                    'content': article_scraper.content
                 })
 
     return jsonify(scraped_data)
