@@ -36,68 +36,70 @@
             <tbody>
 
 
-                <tr>
-                    <td valign="top" width="220px">
-                        <a href="#/">
-                            <img style="border-radius: 10%;" src="{{ url_for('static', filename='site1.png') }}" alt="Logo"
-                                border="0"></a>
-                    </td>
-                    <td valign="center" align="left">
+            <tr>
+                <td valign="top" width="220px">
+                    <a href="#/">
+                        <img style="border-radius: 10%;" src="{{ url_for('static', filename='site1.png') }}" alt="Logo"
+                             border="0"></a>
+                </td>
+                <td valign="center" align="left">
 
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td align="center" class="scraper-wishlist-sidebar-cell" rowspan="100" valign="top">
-                        <div align="center">
+                </td>
+                <td>
+                </td>
+            </tr>
 
 
-                            <br>
-
-                            <form action="update_articles">
-                                <input type="submit" value="Update list of articles"
-                                    style="width: 316px;height: 35px;border-radius: 10%;margin-bottom: 10px; background-color: #110040; color: #F8E006; font-family: 'Montserrat';font-size: 22px;">
-                            </form>
-
-                            <div align="center"><h3>Other informations here.</h3></div>
-
-                        </div>
+            <tr>
+                <td></td>
+                <td></td>
+                <td align="center" class="scraper-wishlist-sidebar-cell" rowspan="100" valign="top">
+                    <div align="center">
 
 
-                    </td>
-                </tr>
+                        <br>
+
+                        <form action="update_articles">
+                            <input type="submit" value="Update list of articles"
+                                   style="width: 316px;height: 35px;border-radius: 10%;margin-bottom: 10px; background-color: #110040; color: #F8E006; font-family: 'Montserrat';font-size: 22px;">
+                        </form>
+
+                        <div align="center"><h3>Other informations here.</h3></div>
+
+                    </div>
 
 
-                <tr>
-                    <td colspan="3">
-                        <hr>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
 
-                <tr>
-                    <td colspan="2">
-                        <div>
-                            {% for item in data %}
-                            <dt>
-                                <a href="{{ url_for('show_article', article_id=item[0]) }}" class="scraper-defined-term">{{ item[2] }}</a>
-                            </dt>
-                            <dd class="scraper-smaller-font">
-                                <span class="label">Published at: {{ item[4] }}</span>
-                            </dd>
-                            <dd class="scraper-smaller-font">
-                                <span class="label"><a href={{ item[5] }}>Link</a></span>
-                            </dd>
-                            {% endfor %}
-                        </div>
-                    </td>
-                </tr>
-            
+            <tr>
+                <td colspan="3">
+                    <hr>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="2">
+                    <div>
+                        {% for item in data %}
+                        <dt>
+                            <a href="{{ url_for('show_article', article_id=item[0]) }}" class="scraper-defined-term">{{
+                                item[2] }}</a>
+
+                        </dt>
+
+                        <dd class="scraper-smaller-font">
+                            <span class="label">Published at: {{ item[4] }}</span>
+
+                        </dd>
+                        <dd class="scraper-smaller-font">
+                            <span class="label"><a href={{ item[5] }}>Link</a>  </span>
+                        </dd>
+                        {% endfor %}
+                    </div>
+
 
             </tbody>
         </table>
@@ -110,16 +112,18 @@
 
         <p><br></p>
         <div class="nav-links"><span aria-current="page" class="page-numbers current">
-            <div class="pagination">
-                {% if page > 1 %}
-                  <a href="{{ url_for('update', page=page-1) }}">Previous</a>
-                {% endif %}
-                <span class="current-page">Page {{ page }} of {{ total_pages }}</span>
-                {% if page < total_pages %}
-                  <a href="{{ url_for('update', page=page+1) }}">Next</a>
-                {% endif %}
-              </div>
-              
+                    <div class="pagination">
+            {% if page > 1 %}
+            <a href="{{ url_for('update', page=page-1) }}">Previous</a>
+            {% endif %}
+            <span class="current-page">Page {{ page }} of {{ total_pages }}</span>
+            {% if page < total_pages %}
+            <a href="{{ url_for('update', page=page+1) }}">Next</a>
+            {% endif %}
+
+
+
+        </div>
 
         </div>
         <div id="footer">
@@ -133,18 +137,18 @@
 
         <script type="text/javascript">
 
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-43432023-1']);
-            _gaq.push(['_trackPageview']);
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43432023-1']);
+  _gaq.push(['_trackPageview']);
 
-            (function() {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
+  (function() {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
 
 
 

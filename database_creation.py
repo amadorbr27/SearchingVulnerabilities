@@ -1,26 +1,35 @@
-import mysql.connector
+import mysql.connector as mysql
 from dotenv import load_dotenv
-from dotenv import dotenv_values
 from flask import Flask
 import json
+from decouple import config
+
+load_dotenv()
 
 app = Flask(__name__)
 
-class dbManager:
-    def __init__(self):
+class Article:
+        def __init__(self, title=None, vendor=None, model=None, android_version=None, publication_date=None, content=None):
+            self.title = title
+            self.vendor = vendor
+            self.model = model
+            self.android_version = android_version
+            self.publication_date = publication_date
+            self.content = content
 
-        # Establish a database connection
-        self.db = mysql.connector.connect(
-            host="localhost",
-            port="3306",
-            user="motorola",
-            password="motorola23",
-            auth_plugin='mysql_native_password',
-            database="monograph"
+class dbManager():
+    def __init__(self):
+        
+        self.db = mysql.connect(
+            host=config('DB_HOST'),
+            port=config('DB_PORT'),
+            user=config('DB_USER'),
+            passwd=config('DB_PASSWORD'),
+            database=config('DB_DATABASE')
         )
         self.cursor = self.db.cursor()
-        
-        self.statements = [
+
+    statements = [
 
         (
             "DROP TABLE IF EXISTS `articles_links`;"
@@ -111,6 +120,9 @@ class dbManager:
             "    REFERENCES `monograph`.`links` (`id`))"
         )
     ]
+
+    
+
 
     def createTables(self):
 
@@ -245,8 +257,27 @@ class dbManager:
 
         article.id_model = id_model
         return article
+    
+    def get_all_articles(self):
+        self.cursor.execute("SELECT * FROM articles")
+        results = self.cursor.fetchall()
+
+        articles = []
+        for row in results:
+            article = Article()
+            article.title = row[0]
+            article.vendor = row[1]
+            article.model = row[2]
+            article.android_version = row[3]
+            article.publication_date = row[4]
+            article.content = row[7]  # Atualize o índice de acordo com a posição correta da coluna de conteúdo
+
+            articles.append(article)
+
+        return articles
 
 
 if __name__ == '__main__':
     manager = dbManager()
     manager.createTables()
+    app.run()
