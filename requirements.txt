@@ -8,3 +8,9 @@ MarkupSafe==2.1.2
 mysql-connector-python==8.0.33
 protobuf==3.20.3
 Werkzeug==2.3.4
+
+Markdown~=3.4.3
+python-dotenv~=1.0.0
+requests~=2.30.0
+html2text~=2020.1.16
+beautifulsoup4~=4.12.2

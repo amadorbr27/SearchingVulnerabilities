@@ -1,5 +1,4 @@
 import mysql.connector
-import json
 from dotenv import load_dotenv
 from dotenv import dotenv_values
 
@@ -8,24 +7,22 @@ class dbManager:
     def __init__(self):
         # Load environment variables from a .env file
         load_dotenv()
-        
+
         # Load configuration values from the .env file
         config = dotenv_values(".env")
 
-       # Establish a database connection
+        # Establish a database connection
         self.db = mysql.connector.connect(
-            host = config["DB_HOST"],
-            port = config["DB_PORT"],
-            user = config["DB_USER"],
-            password = config["DB_PASSWORD"],
-            database = config['DB_NAME']
-
+            host=config["DB_HOST"],
+            port=config["DB_PORT"],
+            user=config["DB_USER"],
+            password=config["DB_PASSWORD"],
+            database=config['DB_NAME']
         )
 
         self.cursor = self.db.cursor()
 
         statements = [
-             
             "DROP TABLE IF EXISTS `article_links`;",
             "DROP TABLE IF EXISTS `articles`;",
             "DROP TABLE IF EXISTS `links`;",
@@ -88,18 +85,17 @@ class dbManager:
                 "    REFERENCES `links` (`id`))"
             ),
         ]
-        
-        #create or reacreate database structure if already exist, earising all data
-        for statament in statements:
-            self.cursor.execute(statament)
+
+        # Create or recreate the database structure if it already exists, erasing all data
+        for statement in statements:
+            self.cursor.execute(statement)
 
     def createTables(self):
         # Show tables that were created
         self.cursor.execute("SHOW TABLES")
         print(self.cursor.fetchall())
 
-
-    #the isInDatabase method checks if a certain URL (url) already exists in the articles table of the database.
+    # The isInDatabase method checks if a certain URL (url) already exists in the articles table of the database.
     def isInDatabase(self, url):
         self.cursor.execute(f"SELECT c_link FROM articles WHERE c_link = '{url}'")
         result = self.cursor.fetchall()
@@ -108,30 +104,30 @@ class dbManager:
             return False
         else:
             return True
-        
-    #Querying the article in the database by id
+
+    # Querying the article in the database by id
     def selectArticleId(self, article):
         self.cursor.execute(f"SELECT id FROM articles WHERE c_link ='{article.c_link}'")
         result = self.cursor.fetchall()
         return result[0][0]
-    
-    #Consulting all links and Inserting new links
+
+    # Consulting all links and inserting new links
     def addArticle(self, article):
-        
         # Collecting and saving the model ID
-        
         self.cursor.execute(f"SELECT id FROM articles WHERE c_link = '{article.c_link}'")
         result = self.cursor.fetchall()
 
         if len(result) == 0:
-            #if the article does not exist, insert it into the 'articles' table
+            # If the article does not exist, insert it into the 'articles' table
             query = "INSERT INTO articles (c_title, d_publication, c_link, c_summary, c_markdown_contents) VALUES (%s, %s, %s, %s, %s)"
-            values = (article.title, article.publication_date, article.c_link, article.summaryListFilter(article.contents), article.content)
+            values = (
+            article.title, article.publication_date, article.c_link, article.summaryListFilter(article.contents),
+            article.content)
             self.cursor.execute(query, values)
             self.db.commit()
 
         id_article = self.selectArticleId(article)
-        
+
         # Updating model
         if article.model != "Unknown":
             self.cursor.execute(f"SELECT id FROM models WHERE c_model = '{article.model}'")
@@ -149,14 +145,12 @@ class dbManager:
             )
             self.db.commit()
 
-    
     def addArticlesLinks(self, article):
         id_article = self.selectArticleId(article)
         for link in article.links:
             self.cursor.execute(f"SELECT id FROM links WHERE c_link = '{link}'")
             result = self.cursor.fetchall()
             if len(result) != 0:
-                # * due one query or use another way
                 self.cursor.execute(f"SELECT id_article, id_link FROM articles_links WHERE id_article = '{id_article}'")
                 result2 = self.cursor.fetchall()
                 self.cursor.execute(f"SELECT id_article, id_link FROM articles_links WHERE id_link = '{result[0][0]}'")
@@ -165,7 +159,6 @@ class dbManager:
                     self.cursor.execute(
                         f"INSERT INTO articles_links (id_article, id_link) VALUES ('{id_article}', '{result[0][0]}')")
                     self.db.commit()
-
 
     def getArticleVendorId(self, article):
         """
@@ -185,7 +178,6 @@ class dbManager:
 
         article.id_vendor = id_vendor
         return article
-    
 
     def addVendors(self, article):
         """
@@ -200,26 +192,30 @@ class dbManager:
             f"INSERT INTO articles_vendors (id_article, id_vendor) VALUES ('{id_article}', '{vendor_id}')"
         )
         self.db.commit()
-    
+
     def getArticlesModelId(self, article):
         """
-        :param article: article to find model  or add to database
+        :param article: article to find model or add to database
         :return: article with id_model
         """
         id_model = None
-        self.cursor.execute(f"SELECT id FROM models WHERE c_model = '{article.model}' AND id_vendor = {article.id_vendor}")
+        self.cursor.execute(
+            f"SELECT id FROM models WHERE c_model = '{article.model}' AND id_vendor = {article.id_vendor}")
         result = self.cursor.fetchall()
 
-        if len(result)==0:
-            self.cursor.execute(f"INSERT INTO models (c_model, id_vendor ) VALUES ('{article.model}', {article.id_vendor})")
+        if len(result) == 0:
+            self.cursor.execute(
+                f"INSERT INTO models (c_model, id_vendor ) VALUES ('{article.model}', {article.id_vendor})")
             self.db.commit()
-            self.cursor.execute(f"SELECT id FROM models WHERE c_model = '{article.model}' AND id_vendor = {article.id_vendor}")
+            self.cursor.execute(
+                f"SELECT id FROM models WHERE c_model = '{article.model}' AND id_vendor = {article.id_vendor}")
             id_model = self.cursor.fetchall()[0][0]
         else:
             id_model = result[0][0]
 
         article.id_model = id_model
         return article
+
 
 if __name__ == '__main__':
     # Create an instance of the dbManager class
