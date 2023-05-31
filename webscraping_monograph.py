@@ -124,16 +124,16 @@ if __name__ == '__main__':
 
     with open('collected_data.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['Title', 'Vendor', 'Model', 'Android Version', 'Publication Date', 'Content'])
+        writer.writerow(['Title', 'Vendor', 'Model', 'Android Version', 'Publication Date', 'Link'])
         for article in manager.get_all_articles():
             writer.writerow([
                 article.title,
-                article.vendor,
+                # article.vendor,
                 article.model,
                 article.android_version,
                 article.publication_date,
-                article.content
+                article.links,
+                # article.content
             ])
-
 
     print('CSV file generated successfully!')
