@@ -341,11 +341,15 @@
         "V27",
         "Y56",
         "Y100",
-        "S17e",
+        "S17t",
+        "S17",
+        "S17 Pro",
         "Y78",
-        "Y78 Plus",
-        "X Fold 2",
-        "X Flip"
+        "Y35 Plus",
+        "iQOO Neo 8",
+        "iQOO Neo 8 Pro",
+        "iQOO Z7s",
+        "S17e"
     ],
     "TCL": [
         "408",
@@ -556,11 +560,11 @@
         "2 Pro",
         "2",
         "1",
+        "C53",
         "Narzo N53",
         "11",
         "11 Pro",
-        "11 Pro Plus",
-        "Narzo N55"
+        "11 Pro Plus"
     ],
     "Motorola": [
         "Moto X40",
@@ -712,9 +716,7 @@
         "Moto X 2014",
         "Moto E 2014",
         "Moto X 2013",
-        "Moto G Stylus 2023",
-        "Moto G 2023",
-        "Edge 40"
+        "Razr 40 Ultra"
     ],
     "Oppo": [
         "Find N2",
@@ -931,9 +933,7 @@
         "A56s",
         "A78",
         "Reno 8T",
-        "Reno 8T 5G",
-        "F23",
-        "A98"
+        "Reno 8T 5G"
     ],
     "Xiaomi": [
         "13",
@@ -1402,13 +1402,7 @@
         "Ascend Mate 2",
         "Ascend W2",
         "Ascend Y220",
-        "Ascend P6",
-        "nova 11i",
-        "nova Y71",
-        "Enjoy 60X",
-        "Nova 11",
-        "Nova 11 Pro",
-        "Nova 11 Ultra"
+        "Ascend P6"
     ],
     "TECNO": [
         "Phantom X2 Pro",
@@ -1666,9 +1660,8 @@
         "Blade V40",
         "Blade V40 Design",
         "Blade V41 Vita",
-        "Blade A53",
-        "Axon 40 Lite",
-        "Axon 50 Ultra"
+        "Axon 50 Ultra",
+        "Blade A53"
     ],
     "Honor": [
         "Magic Vs Ultimate",
@@ -1816,9 +1809,7 @@
         "80 Pro Flat",
         "80 GT",
         "X9a",
-        "X5",
-        "Play 40",
-        "X50i"
+        "X5"
     ],
     "Samsung": [
         "Galaxy A23 5G",
@@ -2265,8 +2256,7 @@
         "Omega",
         "Omega Pro",
         "JK450",
-        "JK900",
-        "BV9300"
+        "JK900"
     ],
     "Oukitel": [
         "WP21",
@@ -2648,13 +2638,7 @@
         "207",
         "208 Dual SIM",
         "106 2013",
-        "107 Dual SIM",
-        "110 2023",
-        "106 2023",
-        "105 2023",
-        "105 4G 2023",
-        "110 4G 2023",
-        "XR21"
+        "107 Dual SIM"
     ],
     "Redmi": [
         "Note 12",
@@ -2891,9 +2875,7 @@
         "One mini",
         "Butterfly S",
         "Desire 200",
-        "Desire 600 Dual SIM",
-        "U23 Pro",
-        "Wildfire E2 Play"
+        "Desire 600 Dual SIM"
     ],
     "Blu": [
         "B3",
@@ -3366,9 +3348,7 @@
         "Pixel 2 XL",
         "Pixel 2",
         "Pixel",
-        "Pixel XL",
-        "Pixel 7a",
-        "Pixel Fold"
+        "Pixel XL"
     ],
     "Fairphone": [
         "3 New Life",
@@ -3410,8 +3390,7 @@
         "Aquos S3",
         "Android One S3",
         "Aquos S2",
-        "K-tai SN-N01",
-        "Aquos Wish 3"
+        "K-tai SN-N01"
     ],
     "Acer": [
         "Sospiro A60",
@@ -3529,9 +3508,7 @@
         "X3 NFC",
         "M2 Pro",
         "F2 Pro",
-        "X2",
-        "F5",
-        "F5 Pro"
+        "X2"
     ],
     "Lenovo": [
         "Tab P11 Pro 2 Gen",
@@ -3690,9 +3667,7 @@
         "Xperia Z1",
         "Xperia Z Ultra",
         "Xperia C",
-        "Xperia M",
-        "Xperia 10 V",
-        "Xperia 1 V"
+        "Xperia M"
     ],
     "AGM": [
         "H5 Pro",
