@@ -340,7 +340,16 @@
         "V27 Pro",
         "V27",
         "Y56",
-        "Y100"
+        "Y100",
+        "S17t",
+        "S17",
+        "S17 Pro",
+        "Y78",
+        "Y35 Plus",
+        "iQOO Neo 8",
+        "iQOO Neo 8 Pro",
+        "iQOO Z7s",
+        "S17e"
     ],
     "TCL": [
         "408",
@@ -550,7 +559,12 @@
         "C1 2018",
         "2 Pro",
         "2",
-        "1"
+        "1",
+        "C53",
+        "Narzo N53",
+        "11",
+        "11 Pro",
+        "11 Pro Plus"
     ],
     "Motorola": [
         "Moto X40",
@@ -701,7 +715,8 @@
         "Nexus 6",
         "Moto X 2014",
         "Moto E 2014",
-        "Moto X 2013"
+        "Moto X 2013",
+        "Razr 40 Ultra"
     ],
     "Oppo": [
         "Find N2",

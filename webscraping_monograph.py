@@ -128,7 +128,7 @@ if __name__ == '__main__':
         for article in manager.get_all_articles():
             writer.writerow([
                 article.title,
-                # article.vendor,
+                article.vendor,
                 article.model,
                 article.android_version,
                 article.publication_date,

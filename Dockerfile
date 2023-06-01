@@ -1,8 +1,8 @@
 # Imagem base
-FROM python:3.10.9
+FROM python:3.10
 
 # Define o diretório de trabalho
-WORKDIR /app
+# WORKDIR /app
 
 # Copia o arquivo requirements
 COPY requirements.txt .
